@@ -1,0 +1,10 @@
+# 忽略真实配置
+config.yaml
+
+# 忽略日志和生成的数据文件
+serverpulse.log
+serverpulse_result.csv
+
+# 忽略 Python 缓存
+__pycache__/
+*.pyc
