@@ -1,0 +1,49 @@
+# ServerPulse 配置文件示例
+# 复制为 config.yaml 并修改实际值
+
+# 服务器列表
+servers:
+  - host: 192.168.1.10
+    port: 22
+    user: ops
+    password: "your_password"   # 也可以使用 key_file
+    tags:
+      env: production
+      role: web
+  - host: 192.168.1.11
+    port: 22
+    user: ops
+    key_file: /path/to/private_key   # 密钥认证
+    tags:
+      env: production
+      role: db
+
+# 监控阈值（百分比）
+thresholds:
+  cpu: 90
+  memory: 85
+  disk: 80
+
+# 要启用的告警通道
+alert_channels:
+  - dingtalk
+  # - wechat_work
+
+# 各通道详细配置
+alert_config:
+  dingtalk:
+    webhook: "https://oapi.dingtalk.com/robot/send?access_token=YOUR_TOKEN"
+  wechat_work:
+    webhook: "https://qyapi.weixin.qq.com/cgi-bin/webhook/send?key=YOUR_KEY"
+
+# 自定义采集命令（可选，default 为内置命令）
+metrics_commands:
+  cpu: "top -bn1 | grep 'Cpu(s)' | awk '{print $8}'"
+  memory: "free -m | awk '/^Mem:/{printf \"%.2f\", $3/$2*100}'"
+  disk: "df -h / | awk 'NR==2{print $5}' | tr -d '%'"
+
+# 并发采集数
+concurrency: 5
+
+# 日志文件
+log_file: "serverpulse.log"
